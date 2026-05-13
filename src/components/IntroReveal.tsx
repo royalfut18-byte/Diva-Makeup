@@ -49,7 +49,7 @@ export default function IntroReveal({ onComplete }: { onComplete: () => void }) 
   const finish = useCallback(() => {
     sessionStorage.setItem('diva_intro_played', '1')
     setShow(false)
-    setTimeout(onComplete, 800)
+    setTimeout(onComplete, 400)
   }, [onComplete])
 
   useEffect(() => {

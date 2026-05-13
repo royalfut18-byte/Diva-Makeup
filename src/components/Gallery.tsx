@@ -29,9 +29,6 @@ export default function Gallery() {
           <h2 className="text-display-md font-display font-bold text-espresso">
             Our Work
           </h2>
-          <p className="mt-5 text-espresso/50 max-w-lg mx-auto">
-            A curated collection of bridal, formal, and beauty transformations.
-          </p>
         </motion.div>
 
         {/* Category tabs */}
@@ -65,11 +62,11 @@ export default function Gallery() {
               <motion.div
                 key={item.id}
                 layout
-                initial={{ opacity: 0, scale: 0.9, filter: 'blur(4px)' }}
-                animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-                exit={{ opacity: 0, scale: 0.9, filter: 'blur(4px)' }}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.4, delay: i * 0.03 }}
-                className="group relative break-inside-avoid rounded-3xl overflow-hidden cursor-pointer"
+                className="group relative break-inside-avoid rounded-3xl overflow-hidden"
               >
                 <img
                   src={item.src}
@@ -77,15 +74,6 @@ export default function Gallery() {
                   loading="lazy"
                   className="w-full h-auto object-cover rounded-3xl transition-transform duration-700 group-hover:scale-105"
                 />
-
-                <div className="absolute inset-0 bg-espresso/0 group-hover:bg-espresso/40 transition-all duration-500 rounded-3xl" />
-
-                <div className="absolute inset-0 flex items-end p-5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="bg-white/90 backdrop-blur-sm rounded-2xl px-4 py-3 w-full transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                    <p className="font-display text-sm font-semibold text-espresso">{item.title}</p>
-                    <p className="text-[10px] text-espresso/50 mt-0.5 uppercase tracking-wider">{item.category}</p>
-                  </div>
-                </div>
 
                 {item.featured && (
                   <div className="absolute top-3 right-3 w-2 h-2 rounded-full bg-warm-gold shadow-gold" />
