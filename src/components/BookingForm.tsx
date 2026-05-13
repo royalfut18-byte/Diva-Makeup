@@ -4,6 +4,9 @@ import { Send, Phone, Mail, Instagram, MessageCircle, CheckCircle, Sparkles } fr
 import { eventTypes } from '../data/services'
 import { siteConfig } from '../data/site'
 import { submitEnquiry } from '../lib/supabase'
+import { galleryItems } from '../data/gallery'
+
+const bookingImage = galleryItems.find((i) => i.id === 'img-09')
 
 export default function BookingForm() {
   const [submitted, setSubmitted] = useState(false)
@@ -69,7 +72,6 @@ export default function BookingForm() {
 
   return (
     <section id="booking" className="section-padding relative overflow-hidden">
-      {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-blush-light/30 via-champagne-light/20 to-ivory" />
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-warm-gold/15 to-transparent" />
       <div className="absolute top-1/4 right-0 w-96 h-96 rounded-full bg-champagne/20 blur-[100px]" />
@@ -94,7 +96,7 @@ export default function BookingForm() {
         </motion.div>
 
         <div className="grid lg:grid-cols-5 gap-10 lg:gap-12">
-          {/* Left - Quick contact */}
+          {/* Left - Image panel + quick contact */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -102,6 +104,18 @@ export default function BookingForm() {
             transition={{ duration: 0.6 }}
             className="lg:col-span-2 space-y-4"
           >
+            {/* Image panel */}
+            {bookingImage && (
+              <div className="rounded-3xl overflow-hidden shadow-luxury-lg border border-white/60 mb-6">
+                <img
+                  src={bookingImage.src}
+                  alt={bookingImage.alt}
+                  loading="lazy"
+                  className="w-full h-64 lg:h-72 object-cover"
+                />
+              </div>
+            )}
+
             <h3 className="font-display text-xl font-semibold text-espresso mb-6">Quick Contact</h3>
 
             {[
@@ -127,7 +141,6 @@ export default function BookingForm() {
               </a>
             ))}
 
-            {/* Booking note */}
             <div className="mt-6 p-4 rounded-2xl bg-champagne-light/50 border border-warm-gold/10">
               <div className="flex items-start gap-2">
                 <Sparkles size={14} className="text-warm-gold mt-0.5 flex-shrink-0" />

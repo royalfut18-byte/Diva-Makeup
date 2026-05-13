@@ -68,30 +68,29 @@ export default function Gallery() {
                 exit={{ opacity: 0, scale: 0.92 }}
                 transition={{ duration: 0.4, delay: i * 0.04 }}
                 className="group relative break-inside-avoid rounded-3xl overflow-hidden cursor-pointer"
-                style={{ aspectRatio: getAspectRatio(i) }}
               >
-                {/* Gradient placeholder */}
-                <div className={`absolute inset-0 ${getGradient(item.category)}`} />
-
-                {/* Shimmer effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                <img
+                  src={item.src}
+                  alt={item.alt}
+                  loading="lazy"
+                  className="w-full h-auto object-cover rounded-3xl transition-transform duration-700 group-hover:scale-105"
+                />
 
                 {/* Dark overlay on hover */}
-                <div className="absolute inset-0 bg-espresso/0 group-hover:bg-espresso/40 transition-all duration-500" />
+                <div className="absolute inset-0 bg-espresso/0 group-hover:bg-espresso/40 transition-all duration-500 rounded-3xl" />
 
-                {/* Center label */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-70 group-hover:opacity-100 transition-opacity duration-300">
-                  <span className="font-display text-lg text-white/90 text-center px-4 drop-shadow-lg">
-                    {item.placeholder}
-                  </span>
+                {/* Title on hover */}
+                <div className="absolute inset-0 flex items-end p-5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="bg-white/90 backdrop-blur-sm rounded-2xl px-4 py-3 w-full">
+                    <p className="font-display text-sm font-semibold text-espresso">{item.title}</p>
+                    <p className="text-[10px] text-espresso/50 mt-0.5 uppercase tracking-wider">{item.category}</p>
+                  </div>
                 </div>
 
-                {/* Category badge */}
-                <div className="absolute top-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <span className="bg-white/90 backdrop-blur-sm text-[10px] font-semibold uppercase tracking-wider text-espresso/70 px-3 py-1 rounded-full">
-                    {item.category}
-                  </span>
-                </div>
+                {/* Featured badge */}
+                {item.featured && (
+                  <div className="absolute top-3 right-3 w-2 h-2 rounded-full bg-warm-gold shadow-gold" />
+                )}
               </motion.div>
             ))}
           </AnimatePresence>
@@ -120,19 +119,4 @@ export default function Gallery() {
       </div>
     </section>
   )
-}
-
-function getGradient(category: string): string {
-  switch (category) {
-    case 'bridal': return 'bg-gradient-to-br from-rose-beige via-rose-beige-light/80 to-champagne'
-    case 'hair': return 'bg-gradient-to-br from-champagne-dark via-champagne to-ivory-warm'
-    case 'formal': return 'bg-gradient-to-br from-blush-deep via-blush to-rose-beige-light'
-    case 'lashes': return 'bg-gradient-to-br from-champagne via-blush-light to-rose-beige-light'
-    default: return 'bg-gradient-to-br from-champagne to-blush'
-  }
-}
-
-function getAspectRatio(index: number): string {
-  const ratios = ['3/4', '4/5', '3/4', '1/1', '4/5', '3/4', '1/1', '3/4', '4/5', '3/4', '1/1', '4/5']
-  return ratios[index % ratios.length]
 }

@@ -1,27 +1,123 @@
+export type GalleryCategory = 'bridal' | 'hair' | 'formal' | 'lashes'
+
 export interface GalleryItem {
   id: string
-  category: 'bridal' | 'hair' | 'formal' | 'lashes'
+  src: string
+  category: GalleryCategory
+  title: string
   alt: string
-  placeholder: string
+  featured: boolean
 }
 
+/**
+ * MANUAL MAPPING — edit category, title, alt, or featured as needed.
+ * src paths reference files in public/portfolio/.
+ */
 export const galleryItems: GalleryItem[] = [
-  { id: '1', category: 'bridal', alt: 'Bridal makeup look', placeholder: 'Bridal Glam' },
-  { id: '2', category: 'bridal', alt: 'Wedding day soft glam', placeholder: 'Soft Bridal' },
-  { id: '3', category: 'bridal', alt: 'Bridal party makeup', placeholder: 'Bridal Party' },
-  { id: '4', category: 'bridal', alt: 'Classic bridal beauty', placeholder: 'Classic Beauty' },
-  { id: '5', category: 'hair', alt: 'Hollywood waves hairstyle', placeholder: 'Hollywood Waves' },
-  { id: '6', category: 'hair', alt: 'Elegant bridal updo', placeholder: 'Elegant Updo' },
-  { id: '7', category: 'hair', alt: 'Half up half down', placeholder: 'Half Up Style' },
-  { id: '8', category: 'hair', alt: 'Soft romantic curls', placeholder: 'Romantic Curls' },
-  { id: '9', category: 'formal', alt: 'Formal event glam', placeholder: 'Formal Glam' },
-  { id: '10', category: 'formal', alt: 'Graduation makeup', placeholder: 'Graduation' },
-  { id: '11', category: 'formal', alt: 'Evening event makeup', placeholder: 'Evening Look' },
-  { id: '12', category: 'lashes', alt: 'Russian volume lashes', placeholder: 'Volume Lashes' },
-  { id: '13', category: 'lashes', alt: 'Classic lash extensions', placeholder: 'Classic Set' },
-  { id: '14', category: 'lashes', alt: 'Brow lamination', placeholder: 'Brow Lamination' },
-  { id: '15', category: 'formal', alt: 'Special occasion look', placeholder: 'Special Occasion' },
-  { id: '16', category: 'bridal', alt: 'Dewy bridal finish', placeholder: 'Dewy Finish' },
+  {
+    id: 'img-01',
+    src: '/portfolio/elegant-updo-brunette.png',
+    category: 'hair',
+    title: 'Elegant Updo',
+    alt: 'Elegant brunette updo with soft face-framing tendrils',
+    featured: true,
+  },
+  {
+    id: 'img-02',
+    src: '/portfolio/soft-glam-eyes-closed.png',
+    category: 'formal',
+    title: 'Soft Glam',
+    alt: 'Soft glam makeup look with shimmery lids and natural lip',
+    featured: true,
+  },
+  {
+    id: 'img-03',
+    src: '/portfolio/artist-bridal-styling.png',
+    category: 'bridal',
+    title: 'Bridal Styling',
+    alt: 'Artist styling bridal hair with decorative accessory',
+    featured: true,
+  },
+  {
+    id: 'img-04',
+    src: '/portfolio/bridal-updo-lace-accessory.png',
+    category: 'bridal',
+    title: 'Lace & Pearl Updo',
+    alt: 'Blonde bridal updo with lace and pearl hair accessory',
+    featured: true,
+  },
+  {
+    id: 'img-05',
+    src: '/portfolio/bridal-updo-gold-accessory.png',
+    category: 'bridal',
+    title: 'Gold Leaf Updo',
+    alt: 'Bridal updo with gold leaf crystal hair accessory',
+    featured: false,
+  },
+  {
+    id: 'img-06',
+    src: '/portfolio/bridal-morning-prep.png',
+    category: 'bridal',
+    title: 'Bridal Morning',
+    alt: 'Behind the scenes bridal morning makeup preparation',
+    featured: false,
+  },
+  {
+    id: 'img-07',
+    src: '/portfolio/smokey-glam-portrait.png',
+    category: 'formal',
+    title: 'Smokey Glam',
+    alt: 'Dramatic smokey eye glamour portrait with Hollywood curls',
+    featured: true,
+  },
+  {
+    id: 'img-08',
+    src: '/portfolio/before-after-transformation.png',
+    category: 'formal',
+    title: 'Transformation',
+    alt: 'Before and after makeup transformation with bold red lip',
+    featured: false,
+  },
+  {
+    id: 'img-09',
+    src: '/portfolio/glam-straight-hair.png',
+    category: 'formal',
+    title: 'Evening Glam',
+    alt: 'Evening glam look with sleek straight black hair',
+    featured: true,
+  },
+  {
+    id: 'img-10',
+    src: '/portfolio/hollywood-waves-blonde.png',
+    category: 'hair',
+    title: 'Hollywood Waves',
+    alt: 'Blonde Hollywood waves with soft bronze makeup',
+    featured: true,
+  },
+  {
+    id: 'img-11',
+    src: '/portfolio/lashes-soft-glam.png',
+    category: 'lashes',
+    title: 'Lash Perfection',
+    alt: 'Close-up soft glam with voluminous lash extensions',
+    featured: true,
+  },
+  {
+    id: 'img-12',
+    src: '/portfolio/evening-glam-portrait.png',
+    category: 'formal',
+    title: 'Night Out Ready',
+    alt: 'Evening glam portrait with flawless skin and sleek hair',
+    featured: false,
+  },
+  {
+    id: 'img-13',
+    src: '/portfolio/hollywood-waves-back.png',
+    category: 'hair',
+    title: 'Balayage Waves',
+    alt: 'Beautiful balayage Hollywood waves from behind',
+    featured: true,
+  },
 ]
 
 export const galleryCategories = [
@@ -31,3 +127,9 @@ export const galleryCategories = [
   { id: 'formal', label: 'Formal' },
   { id: 'lashes', label: 'Lashes & Brows' },
 ] as const
+
+export const heroImages = galleryItems.filter((item) => item.featured).slice(0, 5)
+export const bridalImages = galleryItems.filter((item) => item.category === 'bridal')
+export const hairImages = galleryItems.filter((item) => item.category === 'hair')
+export const formalImages = galleryItems.filter((item) => item.category === 'formal')
+export const lashImages = galleryItems.filter((item) => item.category === 'lashes')

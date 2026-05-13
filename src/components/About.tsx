@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion'
 import { MapPin, Clock, Award, Star } from 'lucide-react'
+import { galleryItems } from '../data/gallery'
 
+const aboutImage = galleryItems.find((item) => item.id === 'img-03')
 const stats = [
   { icon: Clock, value: '11+', label: 'Years Experience' },
   { icon: Star, value: '5.0', label: 'Star Rating' },
@@ -11,7 +13,6 @@ const stats = [
 export default function About() {
   return (
     <section id="about" className="section-padding relative overflow-hidden">
-      {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-ivory to-champagne-light/30" />
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-warm-gold/10 to-transparent" />
       <div className="absolute top-1/3 left-0 w-72 h-72 rounded-full bg-blush/20 blur-[80px]" />
@@ -26,21 +27,14 @@ export default function About() {
             transition={{ duration: 0.7 }}
             className="relative"
           >
-            <div className="aspect-[4/5] rounded-4xl bg-gradient-to-br from-rose-beige/40 via-champagne/50 to-blush/40 border border-white/60 shadow-luxury-lg overflow-hidden relative">
-              {/* Inner decorative */}
-              <div className="absolute inset-8 rounded-3xl border border-warm-gold/10" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center">
-                  <motion.p
-                    className="font-display text-8xl text-warm-gold/20 font-bold"
-                    animate={{ opacity: [0.15, 0.3, 0.15] }}
-                    transition={{ duration: 4, repeat: Infinity }}
-                  >
-                    11
-                  </motion.p>
-                  <p className="text-espresso/30 font-medium mt-2 tracking-wider text-sm uppercase">Years of Excellence</p>
-                </div>
-              </div>
+            <div className="aspect-[4/5] rounded-4xl border border-white/60 shadow-luxury-lg overflow-hidden relative">
+              <img
+                src={aboutImage?.src}
+                alt={aboutImage?.alt || 'Diva Makeup artist at work'}
+                loading="lazy"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-espresso/20 via-transparent to-transparent" />
             </div>
 
             {/* Floating card */}
@@ -60,7 +54,6 @@ export default function About() {
               </div>
             </motion.div>
 
-            {/* Gold corner accent */}
             <div className="absolute -top-3 -left-3 w-16 h-16 border-l-2 border-t-2 border-warm-gold/20 rounded-tl-3xl" />
           </motion.div>
 

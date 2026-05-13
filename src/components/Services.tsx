@@ -1,19 +1,29 @@
 import { motion } from 'framer-motion'
-import { Heart, Sparkles, Star, Crown, Wind, Eye, Wand2, Pen, ArrowRight, type LucideIcon } from 'lucide-react'
+import { ArrowRight, type LucideIcon, Heart, Sparkles, Star, Crown, Wind, Eye, Wand2, Pen } from 'lucide-react'
 import { services } from '../data/services'
+import { galleryItems } from '../data/gallery'
 
 const iconMap: Record<string, LucideIcon> = {
   Heart, Sparkles, Star, Crown, Wind, Eye, Wand2, Pen,
 }
 
+const serviceImages = [
+  galleryItems.find((i) => i.id === 'img-04'),
+  galleryItems.find((i) => i.id === 'img-13'),
+  galleryItems.find((i) => i.id === 'img-07'),
+  galleryItems.find((i) => i.id === 'img-11'),
+  galleryItems.find((i) => i.id === 'img-02'),
+  galleryItems.find((i) => i.id === 'img-10'),
+  galleryItems.find((i) => i.id === 'img-09'),
+  galleryItems.find((i) => i.id === 'img-01'),
+]
+
 export default function Services() {
   return (
     <section id="services" className="section-padding relative overflow-hidden">
-      {/* Background */}
       <div className="absolute inset-0 bg-gradient-section" />
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-warm-gold/10 to-transparent" />
 
-      {/* Decorative elements */}
       <div className="absolute top-20 right-10 w-64 h-64 rounded-full bg-champagne/20 blur-[80px]" />
       <div className="absolute bottom-20 left-10 w-48 h-48 rounded-full bg-blush/20 blur-[60px]" />
 
@@ -43,11 +53,11 @@ export default function Services() {
           </p>
         </motion.div>
 
-        {/* Service cards - varied layout */}
+        {/* Service cards with images */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6">
           {services.map((service, i) => {
             const Icon = iconMap[service.icon]
-            const isFeature = i === 0 || i === 3
+            const img = serviceImages[i]
             return (
               <motion.div
                 key={service.id}
@@ -56,22 +66,27 @@ export default function Services() {
                 viewport={{ once: true, margin: '-50px' }}
                 transition={{ delay: i * 0.06, duration: 0.5 }}
                 whileHover={{ y: -6, transition: { duration: 0.3 } }}
-                className={`group relative glass-card-elevated p-7 hover:shadow-luxury transition-all duration-500 ${
-                  isFeature ? 'sm:col-span-2 lg:col-span-1' : ''
-                }`}
+                className="group relative rounded-3xl overflow-hidden shadow-luxury hover:shadow-luxury-lg transition-all duration-500"
               >
-                {/* Gold glow on hover */}
-                <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-warm-gold/0 to-champagne/0 group-hover:from-warm-gold/5 group-hover:to-champagne/10 transition-all duration-500" />
+                {/* Background image */}
+                {img && (
+                  <img
+                    src={img.src}
+                    alt={img.alt}
+                    loading="lazy"
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                )}
 
-                {/* Gold top border accent */}
-                <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-warm-gold/0 group-hover:via-warm-gold/40 to-transparent transition-all duration-500" />
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-espresso/90 via-espresso/50 to-espresso/20 group-hover:from-espresso/95 group-hover:via-espresso/60 transition-all duration-500" />
 
-                <div className="relative">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-champagne to-champagne-dark/40 flex items-center justify-center mb-5 group-hover:shadow-gold transition-all duration-500 border border-warm-gold/10">
-                    {Icon && <Icon size={24} className="text-warm-gold" />}
+                <div className="relative p-7 min-h-[280px] flex flex-col justify-end">
+                  <div className="w-12 h-12 rounded-2xl bg-white/15 backdrop-blur-sm flex items-center justify-center mb-4 border border-white/20">
+                    {Icon && <Icon size={22} className="text-warm-gold" />}
                   </div>
-                  <h3 className="font-display text-xl font-bold text-espresso mb-2.5">{service.title}</h3>
-                  <p className="text-sm text-espresso/50 leading-relaxed mb-5">{service.description}</p>
+                  <h3 className="font-display text-xl font-bold text-white mb-2">{service.title}</h3>
+                  <p className="text-sm text-white/60 leading-relaxed mb-4">{service.description}</p>
                   <a
                     href="#booking"
                     className="inline-flex items-center gap-1.5 text-xs font-semibold text-warm-gold uppercase tracking-wider group-hover:gap-3 transition-all duration-300"
