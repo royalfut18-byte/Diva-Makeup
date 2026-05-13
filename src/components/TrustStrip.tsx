@@ -2,34 +2,36 @@ import { motion } from 'framer-motion'
 import { Star, Clock, Heart, Home, MapPin } from 'lucide-react'
 
 const items = [
-  { icon: Star, label: '5.0 Google Rating', sub: '22 Reviews' },
-  { icon: Clock, label: '11 Years Experience', sub: 'Since 2015' },
-  { icon: Heart, label: 'Bridal · Formal · Occasions', sub: 'Full service' },
-  { icon: Home, label: 'Studio + Mobile', sub: 'We come to you' },
-  { icon: MapPin, label: 'Sydney Service Areas', sub: 'Liverpool & beyond' },
+  { icon: Star, value: '5.0', label: 'Google Rating' },
+  { icon: Clock, value: '11+', label: 'Years Experience' },
+  { icon: Heart, value: '100+', label: 'Happy Brides' },
+  { icon: Home, value: 'Studio', label: '+ Mobile Service' },
+  { icon: MapPin, value: 'Sydney', label: 'Wide Coverage' },
 ]
 
 export default function TrustStrip() {
   return (
-    <section className="relative py-8 bg-gradient-to-r from-champagne/50 via-white to-champagne/50 border-y border-warm-gold/10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+    <section className="relative py-12 sm:py-16 bg-white/50 overflow-hidden">
+      {/* Subtle top line */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-warm-gold/15 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-warm-gold/15 to-transparent" />
+
+      <div className="max-w-6xl mx-auto px-5 sm:px-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-4">
           {items.map((item, i) => (
             <motion.div
               key={item.label}
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="flex items-center gap-3 justify-center"
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{ delay: i * 0.1, duration: 0.5 }}
+              className="text-center group"
             >
-              <div className="w-10 h-10 rounded-full bg-warm-gold/10 flex items-center justify-center flex-shrink-0">
-                <item.icon size={18} className="text-warm-gold" />
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-champagne/50 border border-warm-gold/10 mb-3 group-hover:border-warm-gold/30 group-hover:shadow-gold transition-all duration-500">
+                <item.icon size={20} className="text-warm-gold" />
               </div>
-              <div>
-                <p className="text-sm font-semibold text-espresso">{item.label}</p>
-                <p className="text-xs text-espresso/50">{item.sub}</p>
-              </div>
+              <p className="text-2xl font-display font-bold text-espresso">{item.value}</p>
+              <p className="text-xs font-medium text-espresso/40 tracking-wide mt-1">{item.label}</p>
             </motion.div>
           ))}
         </div>

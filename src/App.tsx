@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import IntroReveal from './components/IntroReveal'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
@@ -23,7 +24,12 @@ function HomePage() {
   return (
     <>
       {!introComplete && <IntroReveal onComplete={() => setIntroComplete(true)} />}
-      <div className={introComplete ? 'opacity-100' : 'opacity-0'} style={{ transition: 'opacity 0.5s ease' }}>
+      <motion.div
+        initial={introComplete ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+        animate={introComplete ? { opacity: 1, y: 0 } : undefined}
+        transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+        className={introComplete ? '' : 'pointer-events-none'}
+      >
         <Navbar />
         <main>
           <Hero />
@@ -38,9 +44,8 @@ function HomePage() {
         </main>
         <Footer />
         <MobileCTA />
-        {/* Spacer for mobile CTA bar */}
         <div className="h-20 lg:hidden" />
-      </div>
+      </motion.div>
     </>
   )
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, Phone } from 'lucide-react'
 import { siteConfig } from '../data/site'
 
 export default function Navbar() {
@@ -8,35 +8,48 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20)
+    const handleScroll = () => setScrolled(window.scrollY > 30)
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'glass-navbar py-3' : 'bg-transparent py-5'
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${
+        scrolled
+          ? 'glass-navbar py-3'
+          : 'bg-transparent py-5 lg:py-6'
       }`}
     >
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      <nav className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 flex items-center justify-between">
         {/* Logo */}
-        <a href="#home" className="font-serif text-2xl sm:text-3xl font-semibold text-espresso tracking-tight">
-          Diva<span className="text-warm-gold"> Makeup</span>
+        <a href="#home" className="group relative">
+          <span className="font-display text-2xl sm:text-[1.7rem] font-bold text-espresso tracking-tight">
+            Diva<span className="text-gradient-gold"> Makeup</span>
+          </span>
         </a>
 
         {/* Desktop nav */}
-        <div className="hidden lg:flex items-center gap-8">
+        <div className="hidden lg:flex items-center gap-10">
           {siteConfig.navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-espresso/70 hover:text-warm-gold transition-colors"
+              className="relative text-[13px] font-medium uppercase tracking-[0.08em] text-espresso/60 hover:text-warm-gold transition-colors duration-300 group"
             >
               {link.label}
+              <span className="absolute -bottom-1 left-0 w-0 h-px bg-warm-gold group-hover:w-full transition-all duration-300" />
             </a>
           ))}
-          <a href="#booking" className="btn-primary text-sm py-2.5 px-6">
+        </div>
+
+        {/* Desktop CTA */}
+        <div className="hidden lg:flex items-center gap-4">
+          <a href={`tel:${siteConfig.phone}`} className="flex items-center gap-2 text-sm text-espresso/50 hover:text-warm-gold transition-colors">
+            <Phone size={14} />
+            <span className="font-medium">{siteConfig.phoneDisplay}</span>
+          </a>
+          <a href="#booking" className="btn-primary text-xs py-3 px-6">
             Book Now
           </a>
         </div>
@@ -44,10 +57,10 @@ export default function Navbar() {
         {/* Mobile hamburger */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="lg:hidden p-2 text-espresso"
+          className="lg:hidden p-2 text-espresso hover:text-warm-gold transition-colors"
           aria-label="Toggle menu"
         >
-          {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+          {mobileOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
       </nav>
 
@@ -55,26 +68,31 @@ export default function Navbar() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="lg:hidden overflow-hidden glass-navbar border-t border-white/20"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            className="lg:hidden absolute top-full left-0 right-0 bg-white/95 backdrop-blur-2xl border-b border-warm-gold/10 shadow-glass-lg"
           >
-            <div className="px-4 py-6 space-y-4">
-              {siteConfig.navLinks.map((link) => (
-                <a
+            <div className="px-6 py-8 space-y-1">
+              {siteConfig.navLinks.map((link, i) => (
+                <motion.a
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="block text-base font-medium text-espresso/80 hover:text-warm-gold transition-colors"
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                  className="block py-3 text-base font-medium text-espresso/70 hover:text-warm-gold transition-colors border-b border-warm-gold/5 last:border-0"
                 >
                   {link.label}
-                </a>
+                </motion.a>
               ))}
-              <a href="#booking" onClick={() => setMobileOpen(false)} className="btn-primary w-full text-center mt-4">
-                Book Now
-              </a>
+              <div className="pt-4">
+                <a href="#booking" onClick={() => setMobileOpen(false)} className="btn-primary w-full text-center text-sm py-3.5">
+                  Book an Appointment
+                </a>
+              </div>
             </div>
           </motion.div>
         )}

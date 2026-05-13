@@ -5,57 +5,85 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
 
   body {
     @apply font-sans text-espresso bg-ivory antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   ::selection {
-    @apply bg-warm-gold/30 text-espresso;
+    @apply bg-warm-gold/20 text-espresso;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display;
   }
 }
 
 @layer components {
   .glass-card {
-    @apply bg-white/60 backdrop-blur-md border border-white/40 shadow-lg;
+    @apply bg-white/70 backdrop-blur-xl border border-white/60 rounded-3xl;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.02), inset 0 0 0 1px rgba(255,255,255,0.4);
+  }
+
+  .glass-card-elevated {
+    @apply bg-white/80 backdrop-blur-2xl border border-white/70 rounded-3xl;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255,255,255,0.8);
   }
 
   .glass-navbar {
-    @apply bg-white/70 backdrop-blur-xl border-b border-white/30 shadow-sm;
+    @apply bg-white/80 backdrop-blur-2xl border-b border-warm-gold/10;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center px-8 py-3.5 bg-warm-gold text-white font-medium rounded-full
-           hover:bg-warm-gold/90 transition-all duration-300 shadow-md hover:shadow-lg
-           active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2 px-8 py-4 font-medium text-sm tracking-wide rounded-full transition-all duration-500 ease-out;
+    background: linear-gradient(135deg, #B8860B 0%, #D4AF37 50%, #C9A96E 100%);
+    color: white;
+    box-shadow: 0 4px 20px rgba(184, 134, 11, 0.3), 0 2px 8px rgba(184, 134, 11, 0.15);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 35px rgba(184, 134, 11, 0.4), 0 4px 12px rgba(184, 134, 11, 0.2);
+  }
+  .btn-primary:active {
+    transform: translateY(0) scale(0.98);
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center px-8 py-3.5 bg-transparent border-2 border-warm-gold text-warm-gold
-           font-medium rounded-full hover:bg-warm-gold hover:text-white transition-all duration-300
-           active:scale-[0.98];
+    @apply inline-flex items-center justify-center gap-2 px-8 py-4 bg-transparent border-2 border-warm-gold/40 text-warm-gold
+           font-medium text-sm tracking-wide rounded-full hover:bg-warm-gold hover:text-white hover:border-warm-gold
+           transition-all duration-500 ease-out hover:shadow-luxury active:scale-[0.98];
   }
 
   .section-padding {
-    @apply px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-28;
+    @apply px-5 sm:px-8 lg:px-12 py-24 sm:py-32 lg:py-40;
   }
 
-  .heading-xl {
-    @apply font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold leading-tight tracking-tight;
+  .section-divider {
+    @apply w-full h-px bg-gradient-to-r from-transparent via-warm-gold/20 to-transparent;
   }
 
-  .heading-lg {
-    @apply font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight;
+  .gold-line {
+    @apply w-12 h-0.5 bg-gradient-gold rounded-full;
   }
 
-  .heading-md {
-    @apply font-serif text-2xl sm:text-3xl font-semibold;
+  .text-gradient-gold {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #B8860B 0%, #D4AF37 50%, #C9A96E 100%);
   }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .mask-fade-b {
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
   }
 }

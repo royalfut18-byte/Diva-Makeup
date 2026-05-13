@@ -1,139 +1,128 @@
 import { motion } from 'framer-motion'
-import { MapPin, Phone, Mail, Instagram, ExternalLink } from 'lucide-react'
+import { MapPin, Phone, Mail, Instagram, ExternalLink, Navigation } from 'lucide-react'
 import { siteConfig } from '../data/site'
 
 export default function Contact() {
   return (
-    <section id="contact" className="section-padding bg-gradient-to-b from-blush/20 to-champagne/30">
-      <div className="max-w-7xl mx-auto">
+    <section id="contact" className="section-padding relative overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-ivory to-champagne-light/40" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-warm-gold/15 to-transparent" />
+
+      <div className="relative max-w-7xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-16"
         >
-          <p className="text-warm-gold font-medium text-sm uppercase tracking-widest mb-3">Find Us</p>
-          <h2 className="heading-lg text-espresso">Contact & Location</h2>
+          <div className="gold-line mx-auto mb-6" />
+          <p className="text-warm-gold font-semibold text-xs uppercase tracking-[0.2em] mb-4">Find Us</p>
+          <h2 className="text-display-md font-display font-bold text-espresso">
+            Visit Our Studio
+          </h2>
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-          {/* Contact info */}
+          {/* Contact card */}
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="glass-card rounded-3xl p-8 space-y-6"
+            transition={{ duration: 0.6 }}
+            className="glass-card-elevated p-8 space-y-6"
           >
-            <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-full bg-warm-gold/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <MapPin size={18} className="text-warm-gold" />
+            {[
+              { icon: MapPin, title: 'Studio', value: siteConfig.address, href: siteConfig.googleMapsUrl, linkText: 'Get Directions' },
+              { icon: Phone, title: 'Phone', value: siteConfig.phoneDisplay, href: `tel:${siteConfig.phone}` },
+              { icon: Mail, title: 'Email', value: siteConfig.email, href: `mailto:${siteConfig.email}` },
+              { icon: Instagram, title: 'Instagram', value: siteConfig.instagram, href: siteConfig.instagramUrl, linkText: 'Follow' },
+            ].map((item) => (
+              <div key={item.title} className="flex items-start gap-4">
+                <div className="w-11 h-11 rounded-xl bg-champagne-light flex items-center justify-center flex-shrink-0 border border-warm-gold/10">
+                  <item.icon size={18} className="text-warm-gold" />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-espresso/40 uppercase tracking-wider">{item.title}</p>
+                  <a
+                    href={item.href}
+                    target={item.title === 'Instagram' ? '_blank' : undefined}
+                    rel={item.title === 'Instagram' ? 'noopener noreferrer' : undefined}
+                    className="text-sm text-espresso/70 hover:text-warm-gold transition-colors mt-0.5 block"
+                  >
+                    {item.value}
+                  </a>
+                  {item.linkText && (
+                    <a
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-xs text-warm-gold font-medium mt-1.5 hover:gap-2 transition-all"
+                    >
+                      {item.linkText} <ExternalLink size={10} />
+                    </a>
+                  )}
+                </div>
               </div>
-              <div>
-                <p className="font-medium text-espresso">Studio Address</p>
-                <p className="text-sm text-espresso/60 mt-1">{siteConfig.address}</p>
-                <a
-                  href={siteConfig.googleMapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-sm text-warm-gold hover:underline mt-2"
-                >
-                  Get Directions <ExternalLink size={12} />
-                </a>
-              </div>
-            </div>
+            ))}
 
-            <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-full bg-warm-gold/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <Phone size={18} className="text-warm-gold" />
-              </div>
-              <div>
-                <p className="font-medium text-espresso">Phone</p>
-                <a href={`tel:${siteConfig.phone}`} className="text-sm text-espresso/60 hover:text-warm-gold transition-colors mt-1 block">
-                  {siteConfig.phoneDisplay}
-                </a>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-full bg-warm-gold/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <Mail size={18} className="text-warm-gold" />
-              </div>
-              <div>
-                <p className="font-medium text-espresso">Email</p>
-                <a href={`mailto:${siteConfig.email}`} className="text-sm text-espresso/60 hover:text-warm-gold transition-colors mt-1 block">
-                  {siteConfig.email}
-                </a>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-full bg-warm-gold/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <Instagram size={18} className="text-warm-gold" />
-              </div>
-              <div>
-                <p className="font-medium text-espresso">Instagram</p>
-                <a
-                  href={siteConfig.instagramUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-espresso/60 hover:text-warm-gold transition-colors mt-1 block"
-                >
-                  {siteConfig.instagram}
-                </a>
-              </div>
-            </div>
-
-            <div className="pt-4 border-t border-warm-gold/10">
-              <p className="text-sm font-medium text-espresso mb-2">Flexible bookings available</p>
-              <p className="text-xs text-espresso/50">Studio & mobile appointments across Sydney</p>
+            <div className="pt-5 border-t border-warm-gold/10">
+              <p className="text-xs font-semibold text-espresso/50 mb-1">Flexible bookings available</p>
+              <p className="text-[11px] text-espresso/35">Studio & mobile appointments across Sydney</p>
             </div>
           </motion.div>
 
-          {/* Service areas & map */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="space-y-6"
-          >
-            {/* Map card */}
-            <div className="glass-card rounded-3xl p-8 h-48 flex items-center justify-center bg-gradient-to-br from-champagne/50 to-rose-beige/30 relative overflow-hidden">
-              <div className="text-center z-10">
-                <MapPin size={32} className="text-warm-gold mx-auto mb-2" />
-                <p className="font-serif text-lg text-espresso font-medium">Liverpool NSW 2170</p>
+          {/* Map & Service areas */}
+          <div className="space-y-6">
+            {/* Map placeholder */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1, duration: 0.6 }}
+              className="glass-card-elevated p-8 relative overflow-hidden"
+            >
+              <div className="relative text-center py-8">
+                <div className="w-16 h-16 rounded-full bg-gradient-gold flex items-center justify-center mx-auto mb-4 shadow-luxury">
+                  <Navigation size={24} className="text-white" />
+                </div>
+                <p className="font-display text-xl font-bold text-espresso">Liverpool NSW 2170</p>
+                <p className="text-sm text-espresso/40 mt-1">33 Lachlan Street</p>
                 <a
                   href={siteConfig.googleMapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-sm text-warm-gold hover:underline mt-2"
+                  className="btn-secondary text-xs py-2.5 px-5 mt-5 inline-flex"
                 >
-                  Open in Google Maps <ExternalLink size={12} />
+                  <MapPin size={13} /> Open in Google Maps
                 </a>
               </div>
-              {/* Decorative circles */}
-              <div className="absolute top-4 right-4 w-20 h-20 rounded-full border border-warm-gold/10" />
-              <div className="absolute bottom-4 left-4 w-16 h-16 rounded-full border border-warm-gold/10" />
-            </div>
+              {/* Decorative rings */}
+              <div className="absolute top-4 right-4 w-24 h-24 rounded-full border border-warm-gold/8" />
+              <div className="absolute bottom-4 left-4 w-16 h-16 rounded-full border border-warm-gold/5" />
+            </motion.div>
 
             {/* Service areas */}
-            <div className="glass-card rounded-3xl p-8">
-              <h3 className="font-serif text-xl font-semibold text-espresso mb-4">Service Areas</h3>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+              className="glass-card-elevated p-8"
+            >
+              <h3 className="font-display text-lg font-bold text-espresso mb-5">Service Areas</h3>
               <div className="flex flex-wrap gap-2">
                 {siteConfig.serviceAreas.map((area) => (
                   <span
                     key={area}
-                    className="px-3 py-1.5 text-xs font-medium bg-champagne/60 text-espresso/70 rounded-full border border-warm-gold/10"
+                    className="px-3.5 py-1.5 text-[11px] font-semibold bg-champagne-light/70 text-espresso/55 rounded-full border border-warm-gold/8 tracking-wide"
                   >
                     {area}
                   </span>
                 ))}
               </div>
-            </div>
-
-            <a href="#booking" className="btn-primary w-full text-center">
-              Send an Enquiry
-            </a>
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Send, Phone, Mail, Instagram, MessageCircle, CheckCircle } from 'lucide-react'
+import { Send, Phone, Mail, Instagram, MessageCircle, CheckCircle, Sparkles } from 'lucide-react'
 import { eventTypes } from '../data/services'
 import { siteConfig } from '../data/site'
 import { submitEnquiry } from '../lib/supabase'
@@ -38,24 +38,27 @@ export default function BookingForm() {
 
   if (submitted) {
     return (
-      <section id="booking" className="section-padding bg-gradient-to-b from-ivory to-blush/20">
-        <div className="max-w-2xl mx-auto text-center">
+      <section id="booking" className="section-padding relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-blush-light/40 to-ivory" />
+        <div className="relative max-w-lg mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="glass-card rounded-3xl p-12"
+            className="glass-card-elevated p-12"
           >
-            <CheckCircle size={56} className="text-warm-gold mx-auto mb-4" />
-            <h3 className="heading-md text-espresso">Thank You!</h3>
-            <p className="mt-4 text-espresso/60">
-              Your enquiry has been received. We'll get back to you shortly with availability and details.
+            <div className="w-16 h-16 rounded-full bg-gradient-gold flex items-center justify-center mx-auto mb-6">
+              <CheckCircle size={28} className="text-white" />
+            </div>
+            <h3 className="text-display-sm font-display font-bold text-espresso">Thank You!</h3>
+            <p className="mt-4 text-espresso/50 leading-relaxed">
+              Your enquiry has been received. We'll get back to you shortly with availability and pricing.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <a href={`tel:${siteConfig.phone}`} className="btn-secondary text-sm py-2.5 px-5">
-                <Phone size={16} className="mr-2" /> Call Us
+              <a href={`tel:${siteConfig.phone}`} className="btn-secondary text-xs py-2.5 px-5">
+                <Phone size={14} /> Call Us
               </a>
-              <a href={siteConfig.instagramUrl} target="_blank" rel="noopener noreferrer" className="btn-secondary text-sm py-2.5 px-5">
-                <Instagram size={16} className="mr-2" /> Instagram
+              <a href={siteConfig.instagramUrl} target="_blank" rel="noopener noreferrer" className="btn-secondary text-xs py-2.5 px-5">
+                <Instagram size={14} /> Instagram
               </a>
             </div>
           </motion.div>
@@ -65,76 +68,73 @@ export default function BookingForm() {
   }
 
   return (
-    <section id="booking" className="section-padding bg-gradient-to-b from-ivory to-blush/20">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-5 gap-12">
-          {/* Left - Info */}
+    <section id="booking" className="section-padding relative overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blush-light/30 via-champagne-light/20 to-ivory" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-warm-gold/15 to-transparent" />
+      <div className="absolute top-1/4 right-0 w-96 h-96 rounded-full bg-champagne/20 blur-[100px]" />
+      <div className="absolute bottom-0 left-1/4 w-64 h-64 rounded-full bg-blush/15 blur-[80px]" />
+
+      <div className="relative max-w-7xl mx-auto">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
+          <div className="gold-line mx-auto mb-6" />
+          <p className="text-warm-gold font-semibold text-xs uppercase tracking-[0.2em] mb-4">Get in Touch</p>
+          <h2 className="text-display-md font-display font-bold text-espresso">
+            Ready to Plan Your Look?
+          </h2>
+          <p className="mt-4 text-espresso/45 max-w-md mx-auto">
+            Tell us your event date and style — we'll get back to you with availability.
+          </p>
+        </motion.div>
+
+        <div className="grid lg:grid-cols-5 gap-10 lg:gap-12">
+          {/* Left - Quick contact */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="lg:col-span-2"
+            transition={{ duration: 0.6 }}
+            className="lg:col-span-2 space-y-4"
           >
-            <p className="text-warm-gold font-medium text-sm uppercase tracking-widest mb-3">Get in Touch</p>
-            <h2 className="heading-lg text-espresso">Book Your Appointment</h2>
-            <p className="mt-4 text-espresso/60 leading-relaxed">
-              Tell us your event date and style — we'll get back to you with availability.
-            </p>
+            <h3 className="font-display text-xl font-semibold text-espresso mb-6">Quick Contact</h3>
 
-            {/* Quick contact */}
-            <div className="mt-8 space-y-4">
+            {[
+              { icon: Phone, label: 'Call', value: siteConfig.phoneDisplay, href: `tel:${siteConfig.phone}` },
+              { icon: Mail, label: 'Email', value: siteConfig.email, href: `mailto:${siteConfig.email}` },
+              { icon: Instagram, label: 'Instagram', value: siteConfig.instagram, href: siteConfig.instagramUrl },
+              { icon: MessageCircle, label: 'WhatsApp', value: 'Send a message', href: siteConfig.whatsappUrl },
+            ].map((item) => (
               <a
-                href={`tel:${siteConfig.phone}`}
-                className="flex items-center gap-3 p-3 rounded-xl bg-white/60 hover:bg-white/80 border border-warm-gold/10 transition-colors"
+                key={item.label}
+                href={item.href}
+                target={item.label === 'Instagram' || item.label === 'WhatsApp' ? '_blank' : undefined}
+                rel={item.label === 'Instagram' || item.label === 'WhatsApp' ? 'noopener noreferrer' : undefined}
+                className="flex items-center gap-4 p-4 rounded-2xl bg-white/60 backdrop-blur-sm hover:bg-white/90 border border-warm-gold/8 hover:border-warm-gold/20 hover:shadow-glass transition-all duration-400 group"
               >
-                <div className="w-10 h-10 rounded-full bg-warm-gold/10 flex items-center justify-center">
-                  <Phone size={18} className="text-warm-gold" />
+                <div className="w-11 h-11 rounded-xl bg-champagne-light flex items-center justify-center border border-warm-gold/10 group-hover:bg-champagne transition-colors">
+                  <item.icon size={18} className="text-warm-gold" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-espresso">Call</p>
-                  <p className="text-xs text-espresso/50">{siteConfig.phoneDisplay}</p>
+                  <p className="text-sm font-semibold text-espresso">{item.label}</p>
+                  <p className="text-xs text-espresso/40">{item.value}</p>
                 </div>
               </a>
-              <a
-                href={`mailto:${siteConfig.email}`}
-                className="flex items-center gap-3 p-3 rounded-xl bg-white/60 hover:bg-white/80 border border-warm-gold/10 transition-colors"
-              >
-                <div className="w-10 h-10 rounded-full bg-warm-gold/10 flex items-center justify-center">
-                  <Mail size={18} className="text-warm-gold" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-espresso">Email</p>
-                  <p className="text-xs text-espresso/50">{siteConfig.email}</p>
-                </div>
-              </a>
-              <a
-                href={siteConfig.instagramUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 p-3 rounded-xl bg-white/60 hover:bg-white/80 border border-warm-gold/10 transition-colors"
-              >
-                <div className="w-10 h-10 rounded-full bg-warm-gold/10 flex items-center justify-center">
-                  <Instagram size={18} className="text-warm-gold" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-espresso">Instagram</p>
-                  <p className="text-xs text-espresso/50">{siteConfig.instagram}</p>
-                </div>
-              </a>
-              <a
-                href={siteConfig.whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 p-3 rounded-xl bg-white/60 hover:bg-white/80 border border-warm-gold/10 transition-colors"
-              >
-                <div className="w-10 h-10 rounded-full bg-warm-gold/10 flex items-center justify-center">
-                  <MessageCircle size={18} className="text-warm-gold" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-espresso">WhatsApp</p>
-                  <p className="text-xs text-espresso/50">Send a message</p>
-                </div>
-              </a>
+            ))}
+
+            {/* Booking note */}
+            <div className="mt-6 p-4 rounded-2xl bg-champagne-light/50 border border-warm-gold/10">
+              <div className="flex items-start gap-2">
+                <Sparkles size={14} className="text-warm-gold mt-0.5 flex-shrink-0" />
+                <p className="text-xs text-espresso/50 leading-relaxed">
+                  Flexible bookings available. Studio appointments in Lurnea/Liverpool or mobile service for bridal & special occasions.
+                </p>
+              </div>
             </div>
           </motion.div>
 
@@ -143,49 +143,50 @@ export default function BookingForm() {
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
             className="lg:col-span-3"
           >
-            <form onSubmit={handleSubmit} className="glass-card rounded-3xl p-8">
+            <form onSubmit={handleSubmit} className="glass-card-elevated p-8 sm:p-10">
               <div className="grid sm:grid-cols-2 gap-5">
                 <div className="sm:col-span-2">
-                  <label className="block text-sm font-medium text-espresso/70 mb-1.5">Full Name *</label>
+                  <label className="block text-xs font-semibold text-espresso/60 uppercase tracking-wider mb-2">Full Name *</label>
                   <input
                     type="text"
                     required
                     value={form.full_name}
                     onChange={(e) => update('full_name', e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-warm-gold/20 bg-white/60 focus:outline-none focus:ring-2 focus:ring-warm-gold/30 focus:border-warm-gold/40 transition-all"
+                    className="w-full px-5 py-3.5 rounded-xl border border-warm-gold/15 bg-white/70 focus:outline-none focus:ring-2 focus:ring-warm-gold/20 focus:border-warm-gold/30 transition-all text-sm placeholder:text-espresso/25"
                     placeholder="Your full name"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-espresso/70 mb-1.5">Phone</label>
+                  <label className="block text-xs font-semibold text-espresso/60 uppercase tracking-wider mb-2">Phone</label>
                   <input
                     type="tel"
                     value={form.phone}
                     onChange={(e) => update('phone', e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-warm-gold/20 bg-white/60 focus:outline-none focus:ring-2 focus:ring-warm-gold/30 focus:border-warm-gold/40 transition-all"
+                    className="w-full px-5 py-3.5 rounded-xl border border-warm-gold/15 bg-white/70 focus:outline-none focus:ring-2 focus:ring-warm-gold/20 focus:border-warm-gold/30 transition-all text-sm placeholder:text-espresso/25"
                     placeholder="0400 000 000"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-espresso/70 mb-1.5">Email *</label>
+                  <label className="block text-xs font-semibold text-espresso/60 uppercase tracking-wider mb-2">Email *</label>
                   <input
                     type="email"
                     required
                     value={form.email}
                     onChange={(e) => update('email', e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-warm-gold/20 bg-white/60 focus:outline-none focus:ring-2 focus:ring-warm-gold/30 focus:border-warm-gold/40 transition-all"
+                    className="w-full px-5 py-3.5 rounded-xl border border-warm-gold/15 bg-white/70 focus:outline-none focus:ring-2 focus:ring-warm-gold/20 focus:border-warm-gold/30 transition-all text-sm placeholder:text-espresso/25"
                     placeholder="your@email.com"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-espresso/70 mb-1.5">Event Type *</label>
+                  <label className="block text-xs font-semibold text-espresso/60 uppercase tracking-wider mb-2">Event Type *</label>
                   <select
                     required
                     value={form.event_type}
                     onChange={(e) => update('event_type', e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-warm-gold/20 bg-white/60 focus:outline-none focus:ring-2 focus:ring-warm-gold/30 focus:border-warm-gold/40 transition-all"
+                    className="w-full px-5 py-3.5 rounded-xl border border-warm-gold/15 bg-white/70 focus:outline-none focus:ring-2 focus:ring-warm-gold/20 focus:border-warm-gold/30 transition-all text-sm text-espresso/70"
                   >
                     <option value="">Select event type</option>
                     {eventTypes.map((type) => (
@@ -194,43 +195,43 @@ export default function BookingForm() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-espresso/70 mb-1.5">Preferred Date</label>
+                  <label className="block text-xs font-semibold text-espresso/60 uppercase tracking-wider mb-2">Preferred Date</label>
                   <input
                     type="date"
                     value={form.preferred_date}
                     onChange={(e) => update('preferred_date', e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-warm-gold/20 bg-white/60 focus:outline-none focus:ring-2 focus:ring-warm-gold/30 focus:border-warm-gold/40 transition-all"
+                    className="w-full px-5 py-3.5 rounded-xl border border-warm-gold/15 bg-white/70 focus:outline-none focus:ring-2 focus:ring-warm-gold/20 focus:border-warm-gold/30 transition-all text-sm text-espresso/70"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-espresso/70 mb-1.5">Location / Suburb</label>
+                  <label className="block text-xs font-semibold text-espresso/60 uppercase tracking-wider mb-2">Suburb</label>
                   <input
                     type="text"
                     value={form.suburb}
                     onChange={(e) => update('suburb', e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-warm-gold/20 bg-white/60 focus:outline-none focus:ring-2 focus:ring-warm-gold/30 focus:border-warm-gold/40 transition-all"
+                    className="w-full px-5 py-3.5 rounded-xl border border-warm-gold/15 bg-white/70 focus:outline-none focus:ring-2 focus:ring-warm-gold/20 focus:border-warm-gold/30 transition-all text-sm placeholder:text-espresso/25"
                     placeholder="e.g. Liverpool, Casula"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-espresso/70 mb-1.5">Number of People</label>
+                  <label className="block text-xs font-semibold text-espresso/60 uppercase tracking-wider mb-2">People</label>
                   <input
                     type="number"
                     min="1"
                     max="20"
                     value={form.people_count}
                     onChange={(e) => update('people_count', parseInt(e.target.value) || 1)}
-                    className="w-full px-4 py-3 rounded-xl border border-warm-gold/20 bg-white/60 focus:outline-none focus:ring-2 focus:ring-warm-gold/30 focus:border-warm-gold/40 transition-all"
+                    className="w-full px-5 py-3.5 rounded-xl border border-warm-gold/15 bg-white/70 focus:outline-none focus:ring-2 focus:ring-warm-gold/20 focus:border-warm-gold/30 transition-all text-sm"
                   />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="block text-sm font-medium text-espresso/70 mb-1.5">Message</label>
+                  <label className="block text-xs font-semibold text-espresso/60 uppercase tracking-wider mb-2">Message</label>
                   <textarea
                     rows={4}
                     value={form.message}
                     onChange={(e) => update('message', e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-warm-gold/20 bg-white/60 focus:outline-none focus:ring-2 focus:ring-warm-gold/30 focus:border-warm-gold/40 transition-all resize-none"
-                    placeholder="Tell us about your event, style preferences, or any questions..."
+                    className="w-full px-5 py-3.5 rounded-xl border border-warm-gold/15 bg-white/70 focus:outline-none focus:ring-2 focus:ring-warm-gold/20 focus:border-warm-gold/30 transition-all resize-none text-sm placeholder:text-espresso/25"
+                    placeholder="Tell us about your event, style preferences, or questions..."
                   />
                 </div>
               </div>
@@ -238,7 +239,7 @@ export default function BookingForm() {
               <motion.button
                 type="submit"
                 disabled={loading}
-                className="btn-primary w-full mt-6 disabled:opacity-60"
+                className="btn-primary w-full mt-7 disabled:opacity-50 py-4"
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.99 }}
               >
@@ -249,7 +250,7 @@ export default function BookingForm() {
                   </span>
                 ) : (
                   <span className="flex items-center gap-2">
-                    <Send size={16} /> Send Enquiry
+                    <Send size={15} /> Send Booking Enquiry
                   </span>
                 )}
               </motion.button>
