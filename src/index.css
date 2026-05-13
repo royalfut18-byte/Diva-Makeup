@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-sans text-espresso bg-ivory antialiased;
+  }
+
+  ::selection {
+    @apply bg-warm-gold/30 text-espresso;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/60 backdrop-blur-md border border-white/40 shadow-lg;
+  }
+
+  .glass-navbar {
+    @apply bg-white/70 backdrop-blur-xl border-b border-white/30 shadow-sm;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-8 py-3.5 bg-warm-gold text-white font-medium rounded-full
+           hover:bg-warm-gold/90 transition-all duration-300 shadow-md hover:shadow-lg
+           active:scale-[0.98];
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-8 py-3.5 bg-transparent border-2 border-warm-gold text-warm-gold
+           font-medium rounded-full hover:bg-warm-gold hover:text-white transition-all duration-300
+           active:scale-[0.98];
+  }
+
+  .section-padding {
+    @apply px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-28;
+  }
+
+  .heading-xl {
+    @apply font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold leading-tight tracking-tight;
+  }
+
+  .heading-lg {
+    @apply font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight;
+  }
+
+  .heading-md {
+    @apply font-serif text-2xl sm:text-3xl font-semibold;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
