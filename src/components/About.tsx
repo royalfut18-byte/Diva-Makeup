@@ -10,6 +10,16 @@ const stats = [
   { icon: Award, value: 'Specialist', label: 'Bridal Expert' },
 ]
 
+const statContainer = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1 } },
+}
+
+const statItem = {
+  hidden: { opacity: 0, y: 15, scale: 0.9 },
+  show: { opacity: 1, y: 0, scale: 1, transition: { type: 'spring', stiffness: 200, damping: 20 } },
+}
+
 export default function About() {
   return (
     <section id="about" className="section-padding relative overflow-hidden">
@@ -21,27 +31,30 @@ export default function About() {
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           {/* Left - Visual */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, scale: 0.92, filter: 'blur(6px)' }}
+            whileInView={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
             viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.7 }}
+            transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="relative"
           >
-            <div className="aspect-[4/5] rounded-4xl border border-white/60 shadow-luxury-lg overflow-hidden relative">
+            <div className="aspect-[4/5] rounded-4xl border border-white/60 shadow-luxury-lg overflow-hidden relative group">
               <img
                 src={aboutImage?.src}
                 alt={aboutImage?.alt || 'Diva Makeup artist at work'}
                 loading="lazy"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-espresso/20 via-transparent to-transparent" />
             </div>
 
             {/* Floating card */}
             <motion.div
-              className="absolute -bottom-6 -right-6 sm:right-8 glass-card-elevated p-5 shadow-luxury"
+              className="absolute -bottom-6 -right-6 sm:right-8 glass-card-elevated p-5 shadow-luxury will-change-transform"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4, duration: 0.6 }}
               animate={{ y: [0, -5, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
             >
               <div className="flex items-center gap-3">
                 <div className="w-11 h-11 rounded-2xl bg-gradient-gold flex items-center justify-center">
@@ -59,12 +72,18 @@ export default function About() {
 
           {/* Right - Content */}
           <motion.div
-            initial={{ opacity: 0, x: 25 }}
+            initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.7, delay: 0.15 }}
+            transition={{ duration: 0.8, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            <div className="gold-line mb-6" />
+            <motion.div
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="gold-line mb-6 origin-left"
+            />
             <p className="text-warm-gold font-semibold text-xs uppercase tracking-[0.2em] mb-4">About Diva Makeup</p>
             <h2 className="text-display-sm font-display font-bold text-espresso">
               European Artistry,<br />Sydney Based
@@ -85,15 +104,19 @@ export default function About() {
             </div>
 
             {/* Stats grid */}
-            <div className="mt-10 grid grid-cols-2 gap-4">
-              {stats.map((stat, i) => (
+            <motion.div
+              variants={statContainer}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+              className="mt-10 grid grid-cols-2 gap-4"
+            >
+              {stats.map((stat) => (
                 <motion.div
                   key={stat.label}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.3 + i * 0.1 }}
-                  className="flex items-center gap-3 p-3 rounded-2xl bg-white/60 border border-warm-gold/8"
+                  variants={statItem}
+                  whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
+                  className="flex items-center gap-3 p-3 rounded-2xl bg-white/60 border border-warm-gold/8 hover:border-warm-gold/20 hover:shadow-glass transition-all duration-300"
                 >
                   <stat.icon size={18} className="text-warm-gold flex-shrink-0" />
                   <div>
@@ -102,7 +125,7 @@ export default function About() {
                   </div>
                 </motion.div>
               ))}
-            </div>
+            </motion.div>
           </motion.div>
         </div>
       </div>

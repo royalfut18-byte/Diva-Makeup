@@ -18,10 +18,10 @@ export default function Gallery() {
       <div className="relative max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
           <div className="gold-line mx-auto mb-6" />
@@ -42,9 +42,11 @@ export default function Gallery() {
           className="flex flex-wrap justify-center gap-2 mb-12"
         >
           {galleryCategories.map((cat) => (
-            <button
+            <motion.button
               key={cat.id}
               onClick={() => setActiveCategory(cat.id)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               className={`px-6 py-2.5 rounded-full text-xs font-semibold tracking-wide uppercase transition-all duration-400 ${
                 activeCategory === cat.id
                   ? 'bg-gradient-gold text-white shadow-luxury'
@@ -52,7 +54,7 @@ export default function Gallery() {
               }`}
             >
               {cat.label}
-            </button>
+            </motion.button>
           ))}
         </motion.div>
 
@@ -63,10 +65,10 @@ export default function Gallery() {
               <motion.div
                 key={item.id}
                 layout
-                initial={{ opacity: 0, scale: 0.92 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.92 }}
-                transition={{ duration: 0.4, delay: i * 0.04 }}
+                initial={{ opacity: 0, scale: 0.9, filter: 'blur(4px)' }}
+                animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+                exit={{ opacity: 0, scale: 0.9, filter: 'blur(4px)' }}
+                transition={{ duration: 0.4, delay: i * 0.03 }}
                 className="group relative break-inside-avoid rounded-3xl overflow-hidden cursor-pointer"
               >
                 <img
@@ -76,18 +78,15 @@ export default function Gallery() {
                   className="w-full h-auto object-cover rounded-3xl transition-transform duration-700 group-hover:scale-105"
                 />
 
-                {/* Dark overlay on hover */}
                 <div className="absolute inset-0 bg-espresso/0 group-hover:bg-espresso/40 transition-all duration-500 rounded-3xl" />
 
-                {/* Title on hover */}
                 <div className="absolute inset-0 flex items-end p-5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="bg-white/90 backdrop-blur-sm rounded-2xl px-4 py-3 w-full">
+                  <div className="bg-white/90 backdrop-blur-sm rounded-2xl px-4 py-3 w-full transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
                     <p className="font-display text-sm font-semibold text-espresso">{item.title}</p>
                     <p className="text-[10px] text-espresso/50 mt-0.5 uppercase tracking-wider">{item.category}</p>
                   </div>
                 </div>
 
-                {/* Featured badge */}
                 {item.featured && (
                   <div className="absolute top-3 right-3 w-2 h-2 rounded-full bg-warm-gold shadow-gold" />
                 )}
@@ -98,23 +97,25 @@ export default function Gallery() {
 
         {/* Instagram CTA */}
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="text-center mt-14"
         >
-          <a
+          <motion.a
             href="https://www.instagram.com/diva.make.up/"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-3 bg-white/80 backdrop-blur-sm border border-warm-gold/15 rounded-full px-6 py-3 hover:shadow-luxury hover:border-warm-gold/30 transition-all duration-500 group"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
           >
             <Instagram size={18} className="text-warm-gold" />
             <span className="text-sm font-medium text-espresso/60 group-hover:text-espresso transition-colors">
               See more on Instagram
             </span>
             <span className="text-sm text-warm-gold font-semibold">@diva.make.up</span>
-          </a>
+          </motion.a>
         </motion.div>
       </div>
     </section>

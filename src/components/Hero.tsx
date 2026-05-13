@@ -1,6 +1,7 @@
-import { motion } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import { Star, Award, Heart, MapPin, Sparkles } from 'lucide-react'
 import { heroImages } from '../data/gallery'
+import { useRef } from 'react'
 
 const trustBadges = [
   { icon: Star, label: '5.0 ★ Google Reviews' },
@@ -10,26 +11,37 @@ const trustBadges = [
 ]
 
 export default function Hero() {
+  const sectionRef = useRef<HTMLElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end start'],
+  })
+  const parallaxY = useTransform(scrollYProgress, [0, 1], [0, -80])
+  const parallaxScale = useTransform(scrollYProgress, [0, 1], [1, 0.95])
+
   return (
-    <section id="home" className="relative min-h-[100svh] flex items-center overflow-hidden">
+    <section ref={sectionRef} id="home" className="relative min-h-[100svh] flex items-center overflow-hidden">
       <div className="absolute inset-0 bg-ivory" />
       <div className="absolute inset-0 bg-gradient-hero" />
 
       <motion.div
-        className="absolute top-[10%] right-[10%] w-[500px] h-[500px] rounded-full opacity-40"
+        className="absolute top-[10%] right-[10%] w-[500px] h-[500px] rounded-full opacity-40 will-change-transform"
         style={{ background: 'radial-gradient(circle, rgba(247,231,206,0.8) 0%, transparent 70%)' }}
         animate={{ scale: [1, 1.15, 1], x: [0, 10, 0], y: [0, -10, 0] }}
         transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
       />
 
-      <div className="relative max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 pt-32 pb-20 lg:pt-36 lg:pb-24 w-full">
+      <motion.div
+        style={{ y: parallaxY, scale: parallaxScale }}
+        className="relative max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 pt-32 pb-20 lg:pt-36 lg:pb-24 w-full will-change-transform"
+      >
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           {/* Left content */}
           <div className="lg:col-span-7">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.6 }}
+              initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              transition={{ delay: 0.2, duration: 0.7 }}
               className="inline-flex items-center gap-2.5 bg-white/80 backdrop-blur-sm rounded-full px-4 py-2 shadow-glass border border-warm-gold/15 mb-8"
             >
               <div className="flex -space-x-0.5">
@@ -41,16 +53,16 @@ export default function Hero() {
             </motion.div>
 
             <motion.h1
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94] }}
+              initial={{ opacity: 0, y: 50, filter: 'blur(12px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              transition={{ delay: 0.3, duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="text-display-xl font-display font-bold text-espresso text-balance"
             >
               Luxury Makeup & Hair{' '}
-              <span className="relative">
+              <span className="relative inline-block">
                 <span className="text-gradient-gold">Styling</span>
                 <motion.span
-                  className="absolute -bottom-2 left-0 w-full h-0.5 bg-gradient-gold rounded-full"
+                  className="absolute -bottom-2 left-0 w-full h-0.5 bg-gradient-gold rounded-full origin-left"
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}
                   transition={{ delay: 1.2, duration: 0.8, ease: 'easeOut' }}
@@ -60,9 +72,9 @@ export default function Hero() {
             </motion.h1>
 
             <motion.p
-              initial={{ opacity: 0, y: 25 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.7 }}
+              initial={{ opacity: 0, y: 30, filter: 'blur(6px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              transition={{ delay: 0.6, duration: 0.8 }}
               className="mt-7 text-lg sm:text-xl text-espresso/55 max-w-2xl leading-relaxed font-light"
             >
               European makeup artist and hairstylist with 11 years of experience,
@@ -78,7 +90,7 @@ export default function Hero() {
               <motion.a
                 href="#booking"
                 className="btn-primary"
-                whileHover={{ scale: 1.03 }}
+                whileHover={{ scale: 1.03, boxShadow: '0 12px 40px rgba(184, 134, 11, 0.4)' }}
                 whileTap={{ scale: 0.97 }}
               >
                 Book an Appointment
@@ -102,9 +114,9 @@ export default function Hero() {
               {trustBadges.map((badge, i) => (
                 <motion.div
                   key={badge.label}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.2 + i * 0.1 }}
+                  initial={{ opacity: 0, y: 15, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ delay: 1.2 + i * 0.1, type: 'spring', stiffness: 200 }}
                   className="flex items-center gap-2 bg-white/50 backdrop-blur-sm rounded-full px-4 py-2 border border-warm-gold/10"
                 >
                   <badge.icon size={13} className="text-warm-gold" />
@@ -116,9 +128,9 @@ export default function Hero() {
 
           {/* Right side - Photo collage */}
           <motion.div
-            initial={{ opacity: 0, x: 60 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.5, duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
+            initial={{ opacity: 0, x: 60, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+            transition={{ delay: 0.5, duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="hidden lg:block lg:col-span-5 relative"
           >
             <div className="relative w-full h-[580px]">
@@ -126,7 +138,7 @@ export default function Hero() {
 
               {/* Main large image */}
               <motion.div
-                className="absolute top-4 right-4 w-[280px] h-[380px] rounded-4xl overflow-hidden border-2 border-white/80 shadow-luxury-lg"
+                className="absolute top-4 right-4 w-[280px] h-[380px] rounded-4xl overflow-hidden border-2 border-white/80 shadow-luxury-lg will-change-transform"
                 animate={{ y: [0, -10, 0] }}
                 transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
               >
@@ -147,7 +159,7 @@ export default function Hero() {
 
               {/* Secondary image */}
               <motion.div
-                className="absolute top-28 left-0 w-[200px] h-[260px] rounded-3xl overflow-hidden border-2 border-white/70 shadow-luxury"
+                className="absolute top-28 left-0 w-[200px] h-[260px] rounded-3xl overflow-hidden border-2 border-white/70 shadow-luxury will-change-transform"
                 animate={{ y: [0, 10, 0] }}
                 transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
               >
@@ -168,7 +180,7 @@ export default function Hero() {
 
               {/* Third small image */}
               <motion.div
-                className="absolute bottom-8 left-8 w-[140px] h-[140px] rounded-2xl overflow-hidden border-2 border-white/70 shadow-luxury"
+                className="absolute bottom-8 left-8 w-[140px] h-[140px] rounded-2xl overflow-hidden border-2 border-white/70 shadow-luxury will-change-transform"
                 animate={{ y: [0, -6, 0] }}
                 transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
               >
@@ -182,7 +194,7 @@ export default function Hero() {
 
               {/* Floating rating badge */}
               <motion.div
-                className="absolute bottom-16 right-12 glass-card-elevated px-5 py-3 shadow-luxury"
+                className="absolute bottom-16 right-12 glass-card-elevated px-5 py-3 shadow-luxury will-change-transform"
                 animate={{ y: [0, -6, 0] }}
                 transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
               >
@@ -199,8 +211,8 @@ export default function Hero() {
 
               <motion.div
                 className="absolute top-8 left-16"
-                animate={{ opacity: [0.3, 0.8, 0.3], rotate: [0, 90, 180] }}
-                transition={{ duration: 4, repeat: Infinity }}
+                animate={{ opacity: [0.3, 0.8, 0.3], rotate: [0, 180, 360] }}
+                transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
               >
                 <Sparkles size={18} className="text-warm-gold/40" />
               </motion.div>
@@ -210,9 +222,29 @@ export default function Hero() {
             </div>
           </motion.div>
         </div>
-      </div>
+      </motion.div>
 
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-ivory to-transparent" />
+
+      {/* Scroll indicator */}
+      <motion.div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2 }}
+      >
+        <motion.div
+          className="w-5 h-8 rounded-full border-2 border-warm-gold/30 flex items-start justify-center p-1"
+          animate={{ opacity: [0.5, 1, 0.5] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
+          <motion.div
+            className="w-1 h-2 rounded-full bg-warm-gold/60"
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+          />
+        </motion.div>
+      </motion.div>
     </section>
   )
 }

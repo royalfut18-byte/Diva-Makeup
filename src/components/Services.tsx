@@ -18,6 +18,16 @@ const serviceImages = [
   galleryItems.find((i) => i.id === 'img-01'),
 ]
 
+const container = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1 } },
+}
+
+const card = {
+  hidden: { opacity: 0, y: 40, scale: 0.95 },
+  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] } },
+}
+
 export default function Services() {
   return (
     <section id="services" className="section-padding relative overflow-hidden">
@@ -30,10 +40,10 @@ export default function Services() {
       <div className="relative max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="text-center mb-20"
         >
           <motion.div
@@ -54,21 +64,23 @@ export default function Services() {
         </motion.div>
 
         {/* Service cards with images */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6">
+        <motion.div
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: '-50px' }}
+          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6"
+        >
           {services.map((service, i) => {
             const Icon = iconMap[service.icon]
             const img = serviceImages[i]
             return (
               <motion.div
                 key={service.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-50px' }}
-                transition={{ delay: i * 0.06, duration: 0.5 }}
-                whileHover={{ y: -6, transition: { duration: 0.3 } }}
-                className="group relative rounded-3xl overflow-hidden shadow-luxury hover:shadow-luxury-lg transition-all duration-500"
+                variants={card}
+                whileHover={{ y: -8, transition: { duration: 0.3, ease: 'easeOut' } }}
+                className="group relative rounded-3xl overflow-hidden shadow-luxury hover:shadow-luxury-lg transition-shadow duration-500"
               >
-                {/* Background image */}
                 {img && (
                   <img
                     src={img.src}
@@ -78,13 +90,16 @@ export default function Services() {
                   />
                 )}
 
-                {/* Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-espresso/90 via-espresso/50 to-espresso/20 group-hover:from-espresso/95 group-hover:via-espresso/60 transition-all duration-500" />
 
                 <div className="relative p-7 min-h-[280px] flex flex-col justify-end">
-                  <div className="w-12 h-12 rounded-2xl bg-white/15 backdrop-blur-sm flex items-center justify-center mb-4 border border-white/20">
+                  <motion.div
+                    className="w-12 h-12 rounded-2xl bg-white/15 backdrop-blur-sm flex items-center justify-center mb-4 border border-white/20"
+                    whileHover={{ rotate: 5, scale: 1.1 }}
+                    transition={{ type: 'spring', stiffness: 300 }}
+                  >
                     {Icon && <Icon size={22} className="text-warm-gold" />}
-                  </div>
+                  </motion.div>
                   <h3 className="font-display text-xl font-bold text-white mb-2">{service.title}</h3>
                   <p className="text-sm text-white/60 leading-relaxed mb-4">{service.description}</p>
                   <a
@@ -97,7 +112,7 @@ export default function Services() {
               </motion.div>
             )
           })}
-        </div>
+        </motion.div>
       </div>
     </section>
   )

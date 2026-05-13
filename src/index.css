@@ -21,6 +21,10 @@
   h1, h2, h3, h4 {
     @apply font-display;
   }
+
+  img {
+    content-visibility: auto;
+  }
 }
 
 @layer components {
@@ -85,5 +89,9 @@
   .mask-fade-b {
     mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
     -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  }
+
+  .will-change-transform {
+    will-change: transform;
   }
 }

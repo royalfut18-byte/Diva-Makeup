@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import IntroReveal from './components/IntroReveal'
@@ -14,7 +14,8 @@ import BookingForm from './components/BookingForm'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import MobileCTA from './components/MobileCTA'
-import AdminDashboard from './components/AdminDashboard'
+
+const AdminDashboard = lazy(() => import('./components/AdminDashboard'))
 
 function HomePage() {
   const [introComplete, setIntroComplete] = useState(
@@ -25,9 +26,9 @@ function HomePage() {
     <>
       {!introComplete && <IntroReveal onComplete={() => setIntroComplete(true)} />}
       <motion.div
-        initial={introComplete ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-        animate={introComplete ? { opacity: 1, y: 0 } : undefined}
-        transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+        initial={introComplete ? false : { opacity: 0 }}
+        animate={introComplete ? { opacity: 1 } : undefined}
+        transition={{ duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
         className={introComplete ? '' : 'pointer-events-none'}
       >
         <Navbar />
@@ -54,7 +55,7 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
-      <Route path="/admin" element={<AdminDashboard />} />
+      <Route path="/admin" element={<Suspense fallback={null}><AdminDashboard /></Suspense>} />
     </Routes>
   )
 }
